@@ -14,12 +14,12 @@ const patientSchema = new Schema({
     },
     gender: { 
         type: String,
-        enum: ['Male', 'Female'],
         required: true
     },
     email: { 
         type: String,
-        required: true
+        required: true,
+        unique: true,
     },
     phone: { 
         type: String
