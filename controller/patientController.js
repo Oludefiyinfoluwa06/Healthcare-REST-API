@@ -6,10 +6,10 @@ const createToken = (_id) => {
 }
 
 const signup = async (req, res) => {
-    const { fullName, dateOfBirth, gender, email, phone, address, emergencyContactName, emergencyContactRelationship, emergencyContactPhone, username, password } = req.body;
+    const { fullName, dateOfBirth, gender, email, phone, address, emergencyContactName, emergencyContactRelationship, emergencyContactPhone, username, password, appointmentPreferences } = req.body;
 
     try {
-        const patient = await Patient.signup(fullName, dateOfBirth, gender, email, phone, address, emergencyContactName, emergencyContactRelationship, emergencyContactPhone, username, password);
+        const patient = await Patient.signup(fullName, dateOfBirth, gender, email, phone, address, emergencyContactName, emergencyContactRelationship, emergencyContactPhone, username, password, appointmentPreferences);
 
         res.status(200).json({ msg: "Signed up successfully", patient: patient });
     } catch (err) {
@@ -25,6 +25,8 @@ const login = async (req, res) => {
 
         const patientId = patient._id;
         const token = createToken(patientId);
+
+        req.session.token = token;
 
         res.status(200).json({ msg: "Login successful", email, patientId, token });
     } catch (err) {
