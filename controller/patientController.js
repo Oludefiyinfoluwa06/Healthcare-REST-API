@@ -6,10 +6,10 @@ const createToken = (_id) => {
 }
 
 const signup = async (req, res) => {
-    const { fullName, dateOfBirth, gender, email, phone, address, emergencyContactName, emergencyContactRelationship, emergencyContactPhone, username, password, appointmentPreferences } = req.body;
+    const { fullName, dateOfBirth, gender, email, phone, address, emergencyContactName, emergencyContactRelationship, emergencyContactPhone, username, password: hash, preferredDays, preferredTimes, preferredDuration, notificationPreference } = req.body;
 
     try {
-        const patient = await Patient.signup(fullName, dateOfBirth, gender, email, phone, address, emergencyContactName, emergencyContactRelationship, emergencyContactPhone, username, password, appointmentPreferences);
+        const patient = await Patient.signup(fullName, dateOfBirth, gender, email, phone, address, emergencyContactName, emergencyContactRelationship, emergencyContactPhone, username, password, preferredDays, preferredTimes, preferredDuration, notificationPreference);
 
         res.status(200).json({ msg: "Signed up successfully", patient: patient });
     } catch (err) {

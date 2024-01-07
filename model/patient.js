@@ -47,28 +47,26 @@ const patientSchema = new Schema({
         type: String, 
         required: true 
     },
-    appointmentPreferences: {
-        preferredDays: [{
-            type: String,
-            required: true,
-        }],
-        preferredTimes: [{
-            type: String,
-            required: true,
-        }],
-        preferredDuration: {
-            type: Number,
-            required: true,
-        },
-        notificationPreference: {
-            type: String,
-            required: true,
-        },
+    preferredDays: [{
+        type: String,
+        required: true,
+    }],
+    preferredTimes: [{
+        type: String,
+        required: true,
+    }],
+    preferredDuration: {
+        type: Number,
+        required: true,
+    },
+    notificationPreference: {
+        type: String,
+        required: true,
     },
 }, { timestamps: true });
 
-patientSchema.statics.signup = async function (fullName, dateOfBirth, gender, email, phone, address, emergencyContactName, emergencyContactRelationship, emergencyContactPhone, username, password, appointmentPreferences) {
-    if (!fullName || !dateOfBirth || !gender || !email || !phone || !address || !emergencyContactName || !emergencyContactRelationship || !emergencyContactPhone || !username || !password || !appointmentPreferences.preferredDays || !appointmentPreferences.preferredTimes || !appointmentPreferences.preferredDuration || !appointmentPreferences.notificationPreference) {
+patientSchema.statics.signup = async function (fullName, dateOfBirth, gender, email, phone, address, emergencyContactName, emergencyContactRelationship, emergencyContactPhone, username, password, preferredDays, preferredTimes, preferredDuration, notificationPreference) {
+    if (!fullName || !dateOfBirth || !gender || !email || !phone || !address || !emergencyContactName || !emergencyContactRelationship || !emergencyContactPhone || !username || !password || !preferredDays || !preferredTimes || !preferredDuration || !notificationPreference) {
         throw Error('Input fields cannot be empty');
     }
 
@@ -89,7 +87,7 @@ patientSchema.statics.signup = async function (fullName, dateOfBirth, gender, em
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
 
-    const patient = this.create({ fullName, dateOfBirth, gender, email, phone, address, emergencyContactName, emergencyContactRelationship, emergencyContactPhone, username, password: hash, appointmentPreferences });
+    const patient = this.create({ fullName, dateOfBirth, gender, email, phone, address, emergencyContactName, emergencyContactRelationship, emergencyContactPhone, username, password: hash, preferredDays, preferredTimes, preferredDuration, notificationPreference });
 
     return patient;
 }
